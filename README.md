@@ -1,21 +1,19 @@
 # ShuffleWM
 The Shuffle window manager for INDEX.
 
----
-
-If you want to see what this is about, you need an X11 application that uses the _globally active_ input model. Most probably don't. You can check with _xprop_
-
-    xprop WM_PROTOCOLS WM_HINTS
-
-Look for "WM\_TAKE\_FOCUS" in the first line of output. Also look for
-
-    Client accepts input or input focus: False
-
-in the remaining lines.
-
-Just having a globally active application isn't enough. The application has to make use of the input model. Eventually there will be an INDEX app to demonstrate this.
-
----
+> If you want to see what this is about, you need an X11 application that uses the _globally active_ input model. Most probably don't. You can check with _xprop_
+>
+>     xprop WM_PROTOCOLS WM_HINTS
+>
+> In the first line of output, look for
+> 
+>     WM_TAKE_FOCUS
+>     
+> In the remaining lines, look for
+>
+>     Client accepts input or input focus: False
+>
+> Just having a globally active application isn't enough. The application has to make use of the input model. Eventually there will be an INDEX app to demonstrate this.
 
 INDEX is the INcompatible Desktop Environment for X.
 
