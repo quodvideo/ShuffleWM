@@ -27,4 +27,6 @@ Shuffle is a minimal window manager with just as much legacy support as I need t
 
 Shuffle can't draw a window frame, and probably never will. With no frame, there's no way for Shuffle to move or resize a window with a simple button press. Instead Shuffle will use what on most keyboards is the "Windows" key to allow manipulation of legacy app windows. That key is called "Super" on the Linux systems I've seen, so I'll stick with that name. Super and a left click will let you move a window. Super and a right click will let you resize a window.
 
-That's all there is for now. I'm not even sure how to upload the code into Github yet.
+Here's an old explanation of the problem: https://quodvideo.wordpress.com/2017/11/17/focus-and-stacking-on-the-x-window-system/
+
+That's all there is for now.
