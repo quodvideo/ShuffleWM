@@ -638,6 +638,10 @@ cancel_resize (XKeyEvent *e)
   XUngrabKeyboard (e->display, e->time);
 }
 
+static struct managed_window *focus_ring[512];
+static int ring_focus = 0;
+static int ring_end = 0;
+
 static void
 begin_keyboard_focus_change (XKeyEvent *e)
 {
@@ -649,21 +653,43 @@ begin_keyboard_focus_change (XKeyEvent *e)
   struct managed_window *mw;
   XQueryTree (e->display, e->root, &root, &parent, &children, &nchildren);
 
+  ring_focus = 0;
+  ring_end = 0;
+
   for (int i=nchildren;i>=0;i--) {
     mw = find_window (e->display, children[i]);
+    if (mw) {
+      focus_ring[ring_end] = mw;
+      ring_end++;
+    }
   }
   if (nchildren) {
     XFree (children);
   }
+  LIMP("Found %d managed windows\n");
+  /* focus is presumably on the topmost window */
+  ring_focus = ring_end - 1;
 }
 
 static void
 advance_keyboard_focus (XKeyEvent *e)
 {
+  if (ring_focus==0) {
+    ring_focus=ring_end-1;
+  } else {
+    --ring_focus;
+  }
+  focus_from_wm (focus_ring[ring_focus], e->time);
 }
 
 static void
 reverse_keyboard_focus (XKeyEvent *e)
 {
+  if (ring_focus==ring_end-1) {
+    ring_focus=0;
+  } else {
+    ++ring_focus;
+  }
+  focus_from_wm (focus_ring[ring_focus], e->time);
 }
 
