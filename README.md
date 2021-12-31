@@ -1,21 +1,19 @@
 # ShuffleWM
 The Shuffle window manager for INDEX.
 
----
-
-If you want to see what this is about, you need an X11 application that uses the _globally active_ input model. Most probably don't. You can check with _xprop_
-
-    xprop WM_PROTOCOLS WM_HINTS
-
-Look for "WM\_TAKE\_FOCUS" in the first line of output. Also look for
-
-    Client accepts input or input focus: False
-
-in the remaining lines.
-
-Just having a globally active application isn't enough. The application has to make use of the input model. Eventually there will be an INDEX app to demonstrate this.
-
----
+> If you want to see what this is about, you need an X11 application that uses the _globally active_ input model. Most probably don't. You can check with _xprop_
+>
+>     xprop WM_PROTOCOLS WM_HINTS
+>
+> In the first line of output, look for
+> 
+>     WM_TAKE_FOCUS
+>     
+> In the remaining lines, look for
+>
+>     Client accepts input or input focus: False
+>
+> Just having a globally active application isn't enough. The application has to make use of the input model. Eventually there will be an INDEX app to demonstrate this.
 
 INDEX is the INcompatible Desktop Environment for X.
 
@@ -29,4 +27,6 @@ Shuffle is a minimal window manager with just as much legacy support as I need t
 
 Shuffle can't draw a window frame, and probably never will. With no frame, there's no way for Shuffle to move or resize a window with a simple button press. Instead Shuffle will use what on most keyboards is the "Windows" key to allow manipulation of legacy app windows. That key is called "Super" on the Linux systems I've seen, so I'll stick with that name. Super and a left click will let you move a window. Super and a right click will let you resize a window.
 
-That's all there is for now. I'm not even sure how to upload the code into Github yet.
+Here's an old explanation of the problem: https://quodvideo.wordpress.com/2017/11/17/focus-and-stacking-on-the-x-window-system/
+
+That's all there is for now.
