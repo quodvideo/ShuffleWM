@@ -13,6 +13,8 @@ void on_button_release  (Display *d, XButtonEvent *e, Window w0, Window w1);
 void on_motion_notify   (Display *d, XMotionEvent *e, Window w0, Window w1);
 void on_crossing_notity (Display *d, XCrossingEvent *e, Window w0, Window w1);
 void on_client_message  (Display *d, XClientMessageEvent *e);
+void on_focus_in        (Display *d, XFocusChangeEvent *e);
+
 
 Time last_button_time = CurrentTime;
 Bool drag_started = False;
@@ -27,11 +29,13 @@ main (int argc, char **argv)
   Window w0 = XCreateSimpleWindow (d, RootWindow(d,s), 10, 10, 300, 300,
                                    0, BlackPixel(d,s), WhitePixel(d,s));
 
-  /* All we need to know is if there's a button pressed on it.
+  /* We need to know is if there's a button pressed on it.
    * This will be used to set focus to the window if there's no potential
    * to start a drag.
+   *
+   * We need to know we've been focused to ask for a window raise.
    */
-  XSelectInput (d, w0, ButtonPressMask);
+  XSelectInput (d, w0, ButtonPressMask|FocusChangeMask);
 
   /* By not accepting input focus but taking the WM_TAKE_FOCUS message
    * this window follows the globally active input model.
@@ -87,6 +91,8 @@ main (int argc, char **argv)
     case ClientMessage:
       on_client_message (d, (XClientMessageEvent *) &e);
       break;
+    case FocusIn:
+      on_focus_in (d, (XFocusChangeEvent *) &e);
     default:
       break;
     }
@@ -136,5 +142,13 @@ on_client_message (Display *d, XClientMessageEvent *e)
       && e->format == 32
       && e->data.l[0] == XInternAtom (d, "WM_TAKE_FOCUS", False)) {
     XSetInputFocus (d, e->window, RevertToParent, e->data.l[1]);
+  }
+}
+
+void
+on_focus_in (Display *d, XFocusChangeEvent *e)
+{
+  if (e->mode == NotifyNormal) {
+    XRaiseWindow (d, e->window);
   }
 }

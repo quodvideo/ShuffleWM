@@ -51,28 +51,28 @@ static void set_wm_state (struct managed_window *mw,
                           Window                 icon);
 static void legacy_raise_on_focus (struct managed_window *mw);
 
-static void on_focus_in          (XFocusChangeEvent     *e,
-                                  struct managed_window *mw);
-static void on_focus_out         (XFocusChangeEvent     *e,
-                                  struct managed_window *mw);
-static void on_destroy_notify    (XDestroyWindowEvent   *e,
-                                  struct managed_window *mw);
-static void on_unmap_notify      (XUnmapEvent           *e,
-                                  struct managed_window *mw);
-static void on_map_notify        (XMapEvent             *e,
-                                  struct managed_window *mw);
-static void on_reparent_notify   (XReparentEvent        *e,
-                                  struct managed_window *mw);
-static void on_configure_notify  (XConfigureEvent       *e,
-                                  struct managed_window *mw);
-static void on_gravity_notify    (XGravityEvent         *e,
-                                  struct managed_window *mw);
-static void on_circulate_notify  (XCirculateEvent       *e,
-                                  struct managed_window *mw);
-static void on_property_notify   (XPropertyEvent        *e,
-                                  struct managed_window *mw);
-static void on_client_message    (XClientMessageEvent   *e,
-                                  struct managed_window *mw);
+static void on_focus_in          (struct managed_window *mw,
+                                  XFocusChangeEvent     *e);
+static void on_focus_out         (struct managed_window *mw,
+                                  XFocusChangeEvent     *e);
+static void on_destroy_notify    (struct managed_window *mw,
+                                  XDestroyWindowEvent   *e);
+static void on_unmap_notify      (struct managed_window *mw,
+                                  XUnmapEvent           *e);
+static void on_map_notify        (struct managed_window *mw,
+                                  XMapEvent             *e);
+static void on_reparent_notify   (struct managed_window *mw,
+                                  XReparentEvent        *e);
+static void on_configure_notify  (struct managed_window *mw,
+                                  XConfigureEvent       *e);
+static void on_gravity_notify    (struct managed_window *mw,
+                                  XGravityEvent         *e);
+static void on_circulate_notify  (struct managed_window *mw,
+                                  XCirculateEvent       *e);
+static void on_property_notify   (struct managed_window *mw,
+                                  XPropertyEvent        *e);
+static void on_client_message    (struct managed_window *mw,
+                                  XClientMessageEvent   *e);
                                   
 
 int
@@ -202,27 +202,36 @@ remove_window (Display *d, Window w)
     LIMP ("\tWM_NAME = %s\n", mw->wm_name.value);
     XFree (mw->wm_name.value);
   }
+  LIMP("Beep\n");
   if (mw->wm_icon_name.value != NULL) {
     LIMP ("\tWM_ICON_NAME = %s\n", mw->wm_icon_name.value);
     XFree (mw->wm_icon_name.value);
   }
-  if (mw->class_hint->res_name != NULL) {
-    LIMP ("\tWM_CLASS.name = %s\n",mw->class_hint->res_name);
-    XFree (mw->class_hint->res_name);
+  LIMP("Beep\n");
+  if (mw->class_hint) {
+    if (mw->class_hint->res_name != NULL) {
+      LIMP ("\tWM_CLASS.name = %s\n",mw->class_hint->res_name);
+      XFree (mw->class_hint->res_name);
+    }
+    LIMP("Beep\n");
+    if (mw->class_hint->res_class != NULL) {
+      LIMP ("\tWM_CLASS.clas = %s\n",mw->class_hint->res_class);
+      XFree (mw->class_hint->res_class);
+    }
   }
-  if (mw->class_hint->res_class != NULL) {
-    LIMP ("\tWM_CLASS.clas = %s\n",mw->class_hint->res_class);
-    XFree (mw->class_hint->res_class);
-  }
+  LIMP("Beep\n");
   if (mw->colormap_windows != NULL) {
     LIMP ("\tColormap windows?\n");
     XFree (mw->colormap_windows);
   }
+  LIMP("Beep\n");
   if (mw->client_machine.value != NULL) {
     LIMP ("\tWM_CLIENT_MACHINE = %s\n",mw->client_machine.value);
     XFree (mw->client_machine.value);
   }
+  LIMP("Properties freed. Freeing struct managed_window.\n");
   free (mw);
+  LIMP("Removing window %lu from toplevel_context map.\n", w);
   XDeleteContext (d, w, toplevel_context);
 }
 
@@ -309,20 +318,20 @@ try_focus_from_client_area (struct managed_window *mw, Time t)
 }
 
 void
-on_window_event (XEvent *e, struct managed_window *mw)
+on_window_event (struct managed_window *mw, XEvent *e)
 {
   switch (e->type) {
-  case FocusIn:         on_focus_in ((XFocusChangeEvent *) e, mw);        break;
-  case FocusOut:        on_focus_out ((XFocusChangeEvent *) e, mw);       break;
-  case DestroyNotify:   on_destroy_notify ((XDestroyWindowEvent *) e,mw); break;
-  case UnmapNotify:     on_unmap_notify ((XUnmapEvent *) e, mw);          break;
-  case MapNotify:       on_map_notify ((XMapEvent *) e, mw);              break;
-  case ReparentNotify:  on_reparent_notify ((XReparentEvent *) e, mw);    break;
-  case ConfigureNotify: on_configure_notify ((XConfigureEvent *) e, mw);  break;
-  case GravityNotify:   on_gravity_notify ((XGravityEvent *) e, mw);      break;
-  case CirculateNotify: on_circulate_notify ((XCirculateEvent *) e, mw);  break;
-  case PropertyNotify:  on_property_notify ((XPropertyEvent *) e, mw);    break;
-  case ClientMessage:   on_client_message ((XClientMessageEvent *) e,mw); break;
+  case FocusIn:         on_focus_in (mw, (XFocusChangeEvent *) e);        break;
+  case FocusOut:        on_focus_out (mw, (XFocusChangeEvent *) e);       break;
+  case DestroyNotify:   on_destroy_notify (mw, (XDestroyWindowEvent *) e); break;
+  case UnmapNotify:     on_unmap_notify (mw, (XUnmapEvent *) e);          break;
+  case MapNotify:       on_map_notify (mw, (XMapEvent *) e);              break;
+  case ReparentNotify:  on_reparent_notify (mw, (XReparentEvent *) e);    break;
+  case ConfigureNotify: on_configure_notify (mw, (XConfigureEvent *) e);  break;
+  case GravityNotify:   on_gravity_notify (mw, (XGravityEvent *) e);      break;
+  case CirculateNotify: on_circulate_notify (mw, (XCirculateEvent *) e);  break;
+  case PropertyNotify:  on_property_notify (mw, (XPropertyEvent *) e);    break;
+  case ClientMessage:   on_client_message (mw, (XClientMessageEvent *) e); break;
   default:
     LIMP("Unselected event received on client window.\n");
     break;
@@ -364,48 +373,6 @@ retrieve_and_store_wm_normal_hints (struct managed_window *mw)
   if (!(mw->supplied_normal_hints & PWinGravity)){
     mw->normal_hints.win_gravity = NorthWestGravity;
   }
-  LIMP("XSizeHints for WM_NORMAL_HINTS\n"\
-  "           Flags: 0x%x\n"\
-  "        Geometry: %dx%d+%d+%d\n"\
-  "    Minimum size: %dx%d\n"\
-  "    Maximum size: %dx%d\n"\
-  "  Size Increment: %dx%d\n"\
-  "       Base Size: %dx%d\n"\
-  "         Grabity: %d\n"\
-  "  Supplied Hints: 0x%x\n",
-  mw->normal_hints.flags,
-  mw->normal_hints.width,mw->normal_hints.height,
-           mw->normal_hints.x,mw->normal_hints.y,
-  mw->normal_hints.min_width, mw->normal_hints.min_height,
-  mw->normal_hints.max_width, mw->normal_hints.max_height,
-  mw->normal_hints.width_inc, mw->normal_hints.height_inc,
-  mw->normal_hints.base_width, mw->normal_hints.base_height,
-  mw->normal_hints.win_gravity,
-  mw->supplied_normal_hints
-  );
-  LIMP("Flags:\n");
-  LIMP(" USPosition: %d\n", mw->normal_hints.flags & USPosition);
-  LIMP("     USSize: %d\n", mw->normal_hints.flags & USSize);
-  LIMP("  PPosition: %d\n", mw->normal_hints.flags & PPosition);
-  LIMP("      PSize: %d\n", mw->normal_hints.flags & PSize);
-  LIMP("   PMinSize: %d\n", mw->normal_hints.flags & PMinSize);
-  LIMP("   PMaxSize: %d\n", mw->normal_hints.flags & PMaxSize);
-  LIMP(" PResizeInc: %d\n", mw->normal_hints.flags & PResizeInc);
-  LIMP("    PAspect: %d\n", mw->normal_hints.flags & PAspect);
-  LIMP("  PBaseSize: %d\n", mw->normal_hints.flags & PBaseSize);
-  LIMP("PWinGravity: %d\n", mw->normal_hints.flags & PWinGravity);
-  LIMP("Supplied Hints:\n");
-  LIMP(" USPosition: %d\n", mw->supplied_normal_hints & USPosition);
-  LIMP("     USSize: %d\n", mw->supplied_normal_hints & USSize);
-  LIMP("  PPosition: %d\n", mw->supplied_normal_hints & PPosition);
-  LIMP("      PSize: %d\n", mw->supplied_normal_hints & PSize);
-  LIMP("   PMinSize: %d\n", mw->supplied_normal_hints & PMinSize);
-  LIMP("   PMaxSize: %d\n", mw->supplied_normal_hints & PMaxSize);
-  LIMP(" PResizeInc: %d\n", mw->supplied_normal_hints & PResizeInc);
-  LIMP("    PAspect: %d\n", mw->supplied_normal_hints & PAspect);
-  LIMP("  PBaseSize: %d\n", mw->supplied_normal_hints & PBaseSize);
-  LIMP("PWinGravity: %d\n", mw->supplied_normal_hints & PWinGravity);
-
 }
 
 static void
@@ -609,27 +576,27 @@ static void
 legacy_raise_on_focus (struct managed_window *mw)
 {
   switch (mw->focus_model) {
-    case FocusNoInput:
-      LIMP("Not raising NoInput window.\n");
-      break;
-    case FocusPassive:
-      LIMP("Raising Passive window.\n");
-      XRaiseWindow (mw->display, mw->id);
-      break;
-    case FocusLocallyActive:
-      LIMP("Raising LocallyActive window.\n");
-      XRaiseWindow (mw->display, mw->id);
-      break;
-    case FocusGloballyActive:
-      LIMP("Not raising GloballyActive window.\n");
-      break;
-    default:
-      LIMP("Fell down a rabbit hole trying to focus from client area.\n");
-    }
+  case FocusNoInput:
+    LIMP("Not raising NoInput window.\n");
+    break;
+  case FocusPassive:
+    LIMP("Raising Passive window.\n");
+    XRaiseWindow (mw->display, mw->id);
+    break;
+  case FocusLocallyActive:
+    LIMP("Raising LocallyActive window.\n");
+    XRaiseWindow (mw->display, mw->id);
+    break;
+  case FocusGloballyActive:
+    LIMP("Not raising GloballyActive window.\n");
+    break;
+  default:
+    break;
+  }
 }
 
 static void
-on_focus_in (XFocusChangeEvent *e, struct managed_window *mw)
+on_focus_in (struct managed_window *mw, XFocusChangeEvent *e)
 {
   if (e->mode == NotifyNormal || e->mode == NotifyWhileGrabbed) {
     current_focus = mw;
@@ -638,7 +605,7 @@ on_focus_in (XFocusChangeEvent *e, struct managed_window *mw)
 }
 
 static void
-on_focus_out (XFocusChangeEvent *e, struct managed_window *mw)
+on_focus_out (struct managed_window *mw, XFocusChangeEvent *e)
 {
   if (e->mode == NotifyNormal || e->mode == NotifyWhileGrabbed) {
     if (current_focus == mw) current_focus = NULL;
@@ -646,13 +613,13 @@ on_focus_out (XFocusChangeEvent *e, struct managed_window *mw)
 }
 
 static void
-on_destroy_notify (XDestroyWindowEvent *e, struct managed_window *mw)
+on_destroy_notify (struct managed_window *mw, XDestroyWindowEvent *e)
 {
   remove_window (e->display, e->window);
 }
 
 static void
-on_unmap_notify (XUnmapEvent *e, struct managed_window *mw)
+on_unmap_notify (struct managed_window *mw, XUnmapEvent *e)
 {
   switch (mw->wm_state_state) {
   case WithdrawnState:
@@ -675,19 +642,19 @@ on_unmap_notify (XUnmapEvent *e, struct managed_window *mw)
 }
 
 static void
-on_map_notify (XMapEvent *e, struct managed_window *mw)
+on_map_notify (struct managed_window *mw, XMapEvent *e)
 {
   /* Useful? */
 }
 
 static void
-on_reparent_notify (XReparentEvent *e, struct managed_window *mw)
+on_reparent_notify (struct managed_window *mw, XReparentEvent *e)
 {
   /* This may be used to confirm putting the window in a frame. */
 }
 
 static void
-on_configure_notify (XConfigureEvent *e, struct managed_window *mw)
+on_configure_notify (struct managed_window *mw, XConfigureEvent *e)
 {
   /* For now just update the stored geometry. */
   mw->geometry.x = e->x;
@@ -702,19 +669,19 @@ on_configure_notify (XConfigureEvent *e, struct managed_window *mw)
 }
 
 static void
-on_gravity_notify (XGravityEvent *e, struct managed_window *mw)
+on_gravity_notify (struct managed_window *mw, XGravityEvent *e)
 {
   /* Don't know if I'll see this or have use for it. */
 }
 
 static void
-on_circulate_notify (XCirculateEvent *e, struct managed_window *mw)
+on_circulate_notify (struct managed_window *mw, XCirculateEvent *e)
 {
   /* Shouldn't happen. */
 }
 
 static void
-on_property_notify (XPropertyEvent *e, struct managed_window *mw)
+on_property_notify (struct managed_window *mw, XPropertyEvent *e)
 {
   switch (e->state) {
   case PropertyNewValue: store_property (mw, e->atom); break;
@@ -724,6 +691,6 @@ on_property_notify (XPropertyEvent *e, struct managed_window *mw)
 }
 
 static void
-on_client_message (XClientMessageEvent *e, struct managed_window *mw)
+on_client_message (struct managed_window *mw, XClientMessageEvent *e)
 {
 }

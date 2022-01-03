@@ -7,6 +7,6 @@ struct managed_window *get_root_mw (Display *d, Window root);
 
 void on_root_event (XEvent *e);
 
-void focus_top (Display *d, Time t);
+void focus_top (Display *d, Window root, Time t);
 
 #endif /* ROOT_H */

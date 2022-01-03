@@ -4,11 +4,52 @@
 #include "targets.h"
 #include "manager.h"
 
+Bool confirm_wm_change          (void);
+void wait_for_destruction       (Display *d, Window old_wm_window);
+void try_forced_destruction     (Display *d, Window old_wm_window);
+Bool confirm_forced_destruction (void);
+
 static Bool match_timestamp_property (Display *d, XEvent *e, XPointer p);
 static void on_property_notify   (XPropertyEvent         *e, Window root);
 static void on_selection_clear   (XSelectionClearEvent   *e, Window root);
 static void on_selection_request (XSelectionRequestEvent *e, Window root);
 static void on_client_message    (XClientMessageEvent    *e, Window root);
+
+void
+acquire_wm_selection (Display *d, Window root)
+{
+  Window old_wm_window = None;
+  Window wm_sn_manager_window;
+  Time   timestamp;
+
+  old_wm_window = XGetSelectionOwner (d, WM_Sn);
+
+  if (old_wm_window != None) {
+    if (confirm_wm_change ()) {
+      XSelectInput (d, old_wm_window, StructureNotifyMask);
+    } else {
+      WIN("To replace an existing window manager, use the command line option '--replace'. End program.\n");
+    }
+  }
+
+  wm_sn_manager_window = get_manager_window (d, root);
+  timestamp = get_manager_timestamp (d, root);
+
+  if (timestamp > last_prop_timestamp) {
+    last_prop_timestamp = timestamp;
+  }
+  if (old_wm_window != XGetSelectionOwner (d, WM_Sn)) {
+    FAIL("Old window manager replaced during start-up. Aborting.\n");
+  }
+  XSetSelectionOwner (d, WM_Sn, wm_sn_manager_window, timestamp);
+  if (old_wm_window != None) {
+    wait_for_destruction (d, old_wm_window);
+  }
+  if (wm_sn_manager_window != XGetSelectionOwner (d, WM_Sn)) {
+    FAIL("Failed to become window manager. Aborting.\n");
+  }
+  send_manager_message (d, root);
+}
 
 Window
 get_manager_window (Display *d, Window root)
@@ -79,6 +120,63 @@ on_manager_event (XEvent *e, Window root)
   }
 }
 
+Bool
+confirm_wm_change (void)
+{
+  Bool replace = True;
+  return (replace);
+}
+
+
+void
+wait_for_destruction (Display *d, Window old_wm_window)
+{
+  XEvent foo; // Xlib doesn't like NULL.
+  Bool gone;
+  int n = 10, s = 1; // Check 10 times, 1 sec apart.
+  do {
+    gone = XCheckTypedWindowEvent (d, old_wm_window, DestroyNotify, &foo);
+    if (!gone) {
+      if (n==10) {
+        YO("Waiting for existing window manager to relinquish control.");
+      } else {
+        YO(" .");
+      }
+      sleep (s);
+      n--;
+    }
+  } while (!gone && n!=0);
+  if (n!=10) {
+    YO("\n");
+  }
+  if (!gone) {
+    try_forced_destruction (d, old_wm_window);
+  }
+}
+
+void
+try_forced_destruction (Display *d, Window old_wm_window)
+{
+  XEvent foo; // Xlib doesn't like NULL
+  if (confirm_forced_destruction ()) {
+    YO("Forcing existing window manager release.");
+    XKillClient (d, old_wm_window);
+    while (!XCheckTypedWindowEvent (d, old_wm_window, DestroyNotify, &foo)) {
+      YO(" .");
+      sleep (1);
+    }
+    YO(" Done.\n");
+  } else {
+    FAIL("Old window manager did not relinquish control. Aborting.\n");
+  }
+}
+
+Bool
+confirm_forced_destruction (void)
+{
+  Bool forced_replace = True;
+  return (forced_replace);
+}
 
 static Bool
 match_timestamp_property (Display *d, XEvent *e, XPointer p)

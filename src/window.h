@@ -5,7 +5,7 @@ struct managed_window;
 
 void init_windows (Display *d);
 
-void on_window_event (XEvent *e, struct managed_window *mw);
+void on_window_event (struct managed_window *mw, XEvent *e);
 
 struct managed_window *add_root_window (Display *d, Window w);
 struct managed_window *add_window      (Display *d, Window w);

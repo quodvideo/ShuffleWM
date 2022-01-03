@@ -1,6 +1,6 @@
 CFLAGS = -Wall
 
-objects = shuffle.o decode.o atoms.o targets.o window.o manager.o root.o icon.o
+objects = shuffle.o decode.o atoms.o targets.o window.o manager.o root.o icon.o session.o moveresize.o
 
 all: shuffle
 
@@ -22,6 +22,10 @@ manager.o: manager.c
 root.o: root.c
 
 icon.o: icon.c
+
+session.o: session.c
+
+moveresize.o: moveresize.c
 
 .PHONY: clean
 clean:

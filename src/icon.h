@@ -4,7 +4,7 @@
 struct icon;
 
 void init_icons (Display *d);
-void on_icon_event (XEvent *e, struct icon *i);
+void on_icon_event (struct icon *i, XEvent *e);
 
 struct icon *create_icon (Display      *d,
                           Window        root,

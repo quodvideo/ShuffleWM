@@ -31,6 +31,7 @@ extern enum ShuffleModes shuffle_mode;
 
 extern Time last_user_timestamp;
 extern Time last_prop_timestamp;
+
 extern struct managed_window *current_focus;
 
 #endif /* SHUFFLE_H */

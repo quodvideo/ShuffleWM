@@ -62,6 +62,6 @@ resize_icon_contents (struct icon *i, unsigned int width, unsigned int height)
 }
 
 void
-on_icon_event (XEvent *e, struct icon *i)
+on_icon_event (struct icon *i, XEvent *e)
 {
 }

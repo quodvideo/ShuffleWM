@@ -1,0 +1,1580 @@
+Taking control.
+Grabbing Buttons 1 & 3 with Mod4Mask
+Setting icon sizes
+Remapping windows.
+Looking at child 1 of 1, XID 0
+ConfigureRequest #93 real	 Window: 1311
+	     Event window: 1311
+	Requesting window: 4194334
+	         Geometry: 10x17+0+0 (1)
+	          Sibling: 0
+	           Detail: Above
+	           Values: Width Height
+Configure request for an unknown window: 4194334.
+
+FOCUS IS 1 0
+
+ConfigureRequest #96 real	 Window: 1311
+	     Event window: 1311
+	Requesting window: 4194334
+	         Geometry: 484x316+0+0 (0)
+	          Sibling: 0
+	           Detail: Above
+	           Values: Width Height
+Configure request for an unknown window: 4194334.
+
+FOCUS IS 1 0
+
+MapRequest #99 real	 Window: 1311
+	Parent: 1311
+	Window: 4194334
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+Adding window 4194334
+Memory allocated.
+Saving window to XContext.
+Adding window to SaveSet.
+Selecting input on window.
+Getting property list.
+Found 12 properties.
+Storing property 1 of 12
+Looking for WM_PROTOCOLS
+Storing property 2 of 12
+Looking for _NET_WM_PID
+Property not recognized.
+Storing property 3 of 12
+Looking for SM_CLIENT_ID
+Storing property 4 of 12
+Looking for WM_CLIENT_LEADER
+Storing property 5 of 12
+Looking for WM_LOCALE_NAME
+Property not recognized.
+Storing property 6 of 12
+Looking for WM_CLASS
+Storing property 7 of 12
+Looking for WM_HINTS
+Storing property 8 of 12
+Looking for WM_NORMAL_HINTS
+Storing property 9 of 12
+Looking for WM_CLIENT_MACHINE
+Storing property 10 of 12
+Looking for WM_COMMAND
+Storing property 11 of 12
+Looking for WM_ICON_NAME
+Storing property 12 of 12
+Looking for WM_NAME
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+FOCUS IS 1 0
+
+Focusing Passive window.
+MapNotify #116 real	 Window: 4194334
+	 Event window: 4194334
+	Mapped window: 4194334
+
+FOCUS IS 4194334 2
+
+PropertyNotify #117 real	 Window: 4194334
+	  Window: 4194334
+	Property: WM_STATE has new value
+	    Time: 794412694
+Looking for WM_STATE
+WM_STATE change seen on 4194334
+
+FOCUS IS 4194334 2
+
+FocusOut #120 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Normal
+	Detail: Pointer
+
+FOCUS IS 4194334 2
+
+FocusOut #120 real	 Window: 1311
+	Window: 1311
+	  Mode: Normal
+	Detail: Pointer
+
+FOCUS IS 4194334 2
+
+FocusOut #120 real	 Window: 1311
+	Window: 1311
+	  Mode: Normal
+	Detail: PointerRoot
+
+FOCUS IS 4194334 2
+
+FocusIn #120 real	 Window: 1311
+	Window: 1311
+	  Mode: Normal
+	Detail: NonlinearVirtual
+Focus fell to root.
+	    Last user timestamp: 0
+	Last property timestamp: 794412694
+Focusing Passive window.
+
+FOCUS IS 4194334 2
+
+FocusIn #120 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Normal
+	Detail: Nonlinear
+Raising Passive window.
+
+FOCUS IS 4194334 2
+
+PropertyNotify #137 real	 Window: 4194334
+	  Window: 4194334
+	Property: WM_ICON_NAME has new value
+	    Time: 794412725
+Looking for WM_ICON_NAME
+
+FOCUS IS 4194334 2
+
+PropertyNotify #140 real	 Window: 4194334
+	  Window: 4194334
+	Property: _NET_WM_ICON_NAME has new value
+	    Time: 794412725
+Looking for _NET_WM_ICON_NAME
+Property not recognized.
+
+FOCUS IS 4194334 2
+
+PropertyNotify #140 real	 Window: 4194334
+	  Window: 4194334
+	Property: WM_NAME has new value
+	    Time: 794412725
+Looking for WM_NAME
+
+FOCUS IS 4194334 2
+
+PropertyNotify #143 real	 Window: 4194334
+	  Window: 4194334
+	Property: _NET_WM_NAME has new value
+	    Time: 794412725
+Looking for _NET_WM_NAME
+Property not recognized.
+
+FOCUS IS 4194334 2
+
+ButtonPress #149 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 0
+	       Time: 794415713
+	     Coords: 0 325
+	Root Coords: 0 325
+	      State:
+	     Button: 1
+	Same screen: Yes
+releasing from root grab needed?
+FOCUS IS 4194334 2
+
+ButtonPress #153 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 0
+	       Time: 794420174
+	     Coords: 404 409
+	Root Coords: 404 409
+	      State:
+	     Button: 1
+	Same screen: Yes
+releasing from root grab needed?
+FOCUS IS 4194334 2
+
+FocusOut #157 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Grab
+	Detail: Ancestor
+
+FOCUS IS 4194334 2
+
+FocusIn #157 real	 Window: 1311
+	Window: 1311
+	  Mode: Grab
+	Detail: Inferior
+
+FOCUS IS 4194334 2
+
+KeyPress #157 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 0
+	       Time: 794423419
+	     Coords: 374 389
+	Root Coords: 374 389
+	      State:
+	        Key: Super_L
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+KeyRelease #163 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 0
+	       Time: 794423528
+	     Coords: 374 389
+	Root Coords: 374 389
+	      State: Mod4
+	        Key: Super_L
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+FocusOut #163 real	 Window: 1311
+	Window: 1311
+	  Mode: Ungrab
+	Detail: Inferior
+
+FOCUS IS 4194334 2
+
+FocusIn #163 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Ungrab
+	Detail: Ancestor
+
+FOCUS IS 4194334 2
+
+FocusOut #170 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Grab
+	Detail: Ancestor
+
+FOCUS IS 4194334 2
+
+FocusIn #170 real	 Window: 1311
+	Window: 1311
+	  Mode: Grab
+	Detail: Inferior
+
+FOCUS IS 4194334 2
+
+KeyPress #170 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794428610
+	     Coords: 222 139
+	Root Coords: 222 139
+	      State:
+	        Key: Super_L
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+ButtonPress #176 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794431001
+	     Coords: 222 139
+	Root Coords: 222 139
+	      State: Mod4
+	     Button: 1
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+KeyRelease #181 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794433882
+	     Coords: 222 139
+	Root Coords: 222 139
+	      State: Mod4 Button1
+	        Key: Super_L
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+FocusOut #182 real	 Window: 1311
+	Window: 1311
+	  Mode: Ungrab
+	Detail: Inferior
+
+FOCUS IS 4194334 2
+
+FocusIn #182 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Ungrab
+	Detail: Ancestor
+
+FOCUS IS 4194334 2
+
+MotionNotify #188 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794435928
+	     Coords: 222 140
+	Root Coords: 222 140
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 0 0
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #189 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+0+1 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #193 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794435936
+	     Coords: 225 144
+	Root Coords: 225 144
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 3 3
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #194 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+3+5 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #198 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794435944
+	     Coords: 230 150
+	Root Coords: 230 150
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 8 8
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #199 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+8+11 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #203 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794435952
+	     Coords: 235 155
+	Root Coords: 235 155
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 13 13
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #204 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+13+16 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #208 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794435960
+	     Coords: 249 167
+	Root Coords: 249 167
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 27 27
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #209 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+27+28 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #213 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794435968
+	     Coords: 255 174
+	Root Coords: 255 174
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 33 33
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #214 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+33+35 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #218 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794435976
+	     Coords: 269 183
+	Root Coords: 269 183
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 47 47
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #219 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+47+44 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #223 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794435984
+	     Coords: 273 188
+	Root Coords: 273 188
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 51 51
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #224 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+51+49 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #228 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794435992
+	     Coords: 276 190
+	Root Coords: 276 190
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 54 54
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #229 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+54+51 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #233 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436000
+	     Coords: 281 194
+	Root Coords: 281 194
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 59 59
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #234 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+59+55 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #238 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436008
+	     Coords: 286 200
+	Root Coords: 286 200
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 64 64
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #239 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+64+61 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #243 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436016
+	     Coords: 290 204
+	Root Coords: 290 204
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 68 68
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #244 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+68+65 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #248 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436024
+	     Coords: 295 209
+	Root Coords: 295 209
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 73 73
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #249 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+73+70 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #253 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436032
+	     Coords: 296 211
+	Root Coords: 296 211
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 74 74
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #254 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+74+72 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #258 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436040
+	     Coords: 298 213
+	Root Coords: 298 213
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 76 76
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #259 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+76+74 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #263 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436048
+	     Coords: 300 216
+	Root Coords: 300 216
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 78 78
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #264 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+78+77 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #268 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436056
+	     Coords: 301 218
+	Root Coords: 301 218
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 79 79
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #269 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+79+79 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #273 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436064
+	     Coords: 304 222
+	Root Coords: 304 222
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 82 82
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #274 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+82+83 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #278 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436072
+	     Coords: 306 223
+	Root Coords: 306 223
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 84 84
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #279 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+84+84 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #283 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436080
+	     Coords: 307 224
+	Root Coords: 307 224
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 85 85
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #284 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+85+85 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #288 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436088
+	     Coords: 309 226
+	Root Coords: 309 226
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 87 87
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #289 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+87+87 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #293 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436096
+	     Coords: 310 227
+	Root Coords: 310 227
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 88 88
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #294 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+88+88 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #298 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436104
+	     Coords: 311 228
+	Root Coords: 311 228
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 89 89
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #299 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+89+89 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #303 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436112
+	     Coords: 312 229
+	Root Coords: 312 229
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 90 90
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #304 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+90+90 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #308 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436120
+	     Coords: 313 230
+	Root Coords: 313 230
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 91 91
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #309 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+91+91 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #313 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436144
+	     Coords: 313 231
+	Root Coords: 313 231
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 91 91
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #314 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+91+92 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #318 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794436192
+	     Coords: 314 231
+	Root Coords: 314 231
+	      State: Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 92 92
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #319 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+92+92 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+ButtonRelease #323 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794441116
+	     Coords: 314 231
+	Root Coords: 314 231
+	      State: Button1
+	     Button: 1
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+FocusOut #326 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Grab
+	Detail: Ancestor
+
+FOCUS IS 4194334 2
+
+FocusIn #326 real	 Window: 1311
+	Window: 1311
+	  Mode: Grab
+	Detail: Inferior
+
+FOCUS IS 4194334 2
+
+KeyPress #326 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794443104
+	     Coords: 260 276
+	Root Coords: 260 276
+	      State:
+	        Key: Super_L
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+ButtonPress #332 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794443944
+	     Coords: 260 276
+	Root Coords: 260 276
+	      State: Mod4
+	     Button: 1
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+MotionNotify #337 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445040
+	     Coords: 264 280
+	Root Coords: 264 280
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 96 96
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #338 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+96+96 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #342 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445048
+	     Coords: 269 285
+	Root Coords: 269 285
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 101 101
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #343 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+101+101 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #347 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445056
+	     Coords: 272 287
+	Root Coords: 272 287
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 104 104
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #348 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+104+103 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #352 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445064
+	     Coords: 279 292
+	Root Coords: 279 292
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 111 111
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #353 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+111+108 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #357 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445072
+	     Coords: 281 293
+	Root Coords: 281 293
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 113 113
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #358 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+113+109 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #362 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445080
+	     Coords: 284 297
+	Root Coords: 284 297
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 116 116
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #363 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+116+113 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #367 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445088
+	     Coords: 285 297
+	Root Coords: 285 297
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 117 117
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #368 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+117+113 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #372 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445096
+	     Coords: 286 298
+	Root Coords: 286 298
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 118 118
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #373 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+118+114 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #377 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445104
+	     Coords: 288 300
+	Root Coords: 288 300
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 120 120
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #378 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+120+116 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #382 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445344
+	     Coords: 289 300
+	Root Coords: 289 300
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 121 121
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #383 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+121+116 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #387 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445352
+	     Coords: 290 302
+	Root Coords: 290 302
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 122 122
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #388 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+122+118 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #392 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445360
+	     Coords: 291 302
+	Root Coords: 291 302
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 123 123
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #393 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+123+118 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #397 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794445368
+	     Coords: 291 303
+	Root Coords: 291 303
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 123 123
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #398 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+123+119 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+KeyRelease #402 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794448230
+	     Coords: 291 303
+	Root Coords: 291 303
+	      State: Mod4 Button1
+	        Key: Super_L
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+FocusOut #403 real	 Window: 1311
+	Window: 1311
+	  Mode: Ungrab
+	Detail: Inferior
+
+FOCUS IS 4194334 2
+
+FocusIn #403 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Ungrab
+	Detail: Ancestor
+
+FOCUS IS 4194334 2
+
+ButtonRelease #409 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794450108
+	     Coords: 291 303
+	Root Coords: 291 303
+	      State: Button1
+	     Button: 1
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+FocusOut #412 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Grab
+	Detail: Ancestor
+
+FOCUS IS 4194334 2
+
+FocusIn #412 real	 Window: 1311
+	Window: 1311
+	  Mode: Grab
+	Detail: Inferior
+
+FOCUS IS 4194334 2
+
+KeyPress #412 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794452308
+	     Coords: 251 258
+	Root Coords: 251 258
+	      State:
+	        Key: Super_L
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+ButtonPress #418 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794452584
+	     Coords: 251 258
+	Root Coords: 251 258
+	      State: Mod4
+	     Button: 1
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+MotionNotify #423 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794452752
+	     Coords: 252 260
+	Root Coords: 252 260
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 124 124
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #424 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+124+121 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #428 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794452760
+	     Coords: 255 262
+	Root Coords: 255 262
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 127 127
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #429 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+127+123 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #433 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794452768
+	     Coords: 257 266
+	Root Coords: 257 266
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 129 129
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #434 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+129+127 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #438 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794452776
+	     Coords: 261 270
+	Root Coords: 261 270
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 133 133
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #439 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+133+131 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #443 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794452784
+	     Coords: 263 271
+	Root Coords: 263 271
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 135 135
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #444 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+135+132 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #448 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794452792
+	     Coords: 264 273
+	Root Coords: 264 273
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 136 136
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #449 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+136+134 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #453 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794452800
+	     Coords: 266 275
+	Root Coords: 266 275
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 138 138
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #454 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+138+136 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+MotionNotify #458 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794452816
+	     Coords: 267 276
+	Root Coords: 267 276
+	      State: Mod4 Button1
+	    Is hint: No
+	Same screen: Yes
+Moving window 4194334 to 139 139
+
+FOCUS IS 4194334 2
+
+ConfigureNotify #459 real	 Window: 4194334
+	     Event window: 4194334
+	Configured window: 4194334
+	         Geometry: 484x316+139+137 (0)
+	          Sibling: 2097153
+
+FOCUS IS 4194334 2
+
+ButtonRelease #463 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794454436
+	     Coords: 267 276
+	Root Coords: 267 276
+	      State: Mod4 Button1
+	     Button: 1
+	Same screen: Yes
+
+FOCUS IS 4194334 2
+
+FocusOut #464 real	 Window: 1311
+	Window: 1311
+	  Mode: Ungrab
+	Detail: Inferior
+
+FOCUS IS 4194334 2
+
+FocusIn #464 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Ungrab
+	Detail: Ancestor
+
+FOCUS IS 4194334 2
+
+ButtonPress #470 real	 Window: 1311
+	     Window: 1311
+	       Root: 1311
+	  Subwindow: 4194334
+	       Time: 794457992
+	     Coords: 464 325
+	Root Coords: 464 325
+	      State:
+	     Button: 1
+	Same screen: Yes
+Passing the click on.
+Focusing Passive window.
+
+FOCUS IS 4194334 2
+
+UnmapNotify #475 real	 Window: 4194334
+	   Event window: 4194334
+	Unmapped window: 4194334
+UnmapNotify into WithdrawnState.
+Removing window 4194334
+	WM_NAME = merchan@Parnassus: ~/Portfolio/ShuffleWM/src
+Beep
+	WM_ICON_NAME = merchan@Parnassus: ~/Portfolio/ShuffleWM/src
+Beep
+	WM_CLASS.name = xterm
+Beep
+	WM_CLASS.clas = XTerm
+Beep
+Beep
+	WM_CLIENT_MACHINE = Parnassus
+Properties freed. Freeing struct managed_window.
+Removing window 4194334 from toplevel_context map.
+
+FOCUS IS 1311 0
+
+FocusOut #475 real	 Window: 4194334
+	Window: 4194334
+	  Mode: Normal
+	Detail: Ancestor
+
+FOCUS IS 1311 0
+
+FocusIn #475 real	 Window: 1311
+	Window: 1311
+	  Mode: Normal
+	Detail: Inferior
+Focus fell to root.
+	    Last user timestamp: 794457992
+	Last property timestamp: 794412725
+
+FOCUS IS 1311 0
+
+DestroyNotify #475 real	 Window: 4194334
+	    Event window: 4194334
+	Destroyed window: 4194334
+
+FOCUS IS 1311 0
+
+X connection to :2 broken (explicit kill or server shutdown).

@@ -13,6 +13,7 @@
 #include "manager.h"
 #include "root.h"
 #include "icon.h"
+#include "session.h"
 
 #include "shuffle.h"
 
@@ -29,62 +30,60 @@ struct managed_window *current_focus = NULL;
 enum ShuffleModes shuffle_mode = NoMode;
 
 /* Globals that almost never change. */
-static Window wm_sn_root_window = None;
 static Window wm_sn_manager_window = None;
 
 /* All the basic set-up. */
 void process_command_line       (int argc, char **argv);  // does nothing
 Display *connect_to_display     (const char *display_name);
-void select_screen              (Display *display, int screen_number);
-void acquire_wm_selection       (Display *display);
-void connect_to_session_manager (void);                   // does nothing
-void set_up_environment         (Display *display);
-void manage_existing_windows    (Display *display);
-void update_timestamps          (XEvent *e);
-void process_event              (XEvent *e);
-void release_managed_windows    (Display *display);
-Bool confirm_wm_change          (void);
-void wait_for_destruction       (Display *display, Window old_wm_window);
-void try_forced_destruction     (Display *display, Window old_wm_window);
-Bool confirm_forced_destruction (void);
+Window   select_root            (Display *display, int screen_number);
+void set_up_environment         (Display *display, Window root);
+void manage_existing_windows    (Display *display, Window root);
+
+/* Event loop */
+void update_timestamps (XEvent *e);
+void dispatch_event     (XEvent *e, Window root);
+void check_sanity      (Display *display, Window root);
+
+/* Clean up when done. */
+void release_managed_windows (Display *display, Window root);
+
+/* Error handler function for XSetErrorHandler */
+int on_error (Display *display, XErrorEvent *e);
+
+unsigned long last_key_release_serial;
 
 /* Here we go! */
 int
 main (int argc, char **argv)
 {
   Display *d;
+  Window   root;
+
   process_command_line (argc, argv);
   d = connect_to_display (NULL);
-  intern_display_atoms (d);
-  select_screen (d, DefaultScreen(d));
+  XSetErrorHandler (on_error);
+  intern_display_atoms (d);                    // atoms.c
+  root = select_root (d, DefaultScreen(d));
 #warning "This could be event driven from about here on."
-  acquire_wm_selection (d);
-  connect_to_session_manager ();
-  set_up_environment (d);
-  manage_existing_windows (d);
+  acquire_wm_selection (d, root); // manager.c
+  connect_to_session_manager ();  // session.c
+  set_up_environment (d, root);
+  manage_existing_windows (d, root);
 
   shuffle_mode = NoMode;
   while (shuffle_mode) {
     XEvent event;
     XNextEvent (d, &event);
+    if (event.type == KeyRelease) last_key_release_serial = event.xkey.serial;
+//    if (event.xany.serial == last_key_release_serial) continue;
 #ifdef DECODE_H
     decode_event (&event);
 #endif /* DECODE_H */
-    process_event (&event);
-    if (1) {
-      /* Temporary bit of code to put us in click to focus mode. */
-      Window current_focus;
-      int    revert_to;
-      XGetInputFocus (d, &current_focus, &revert_to);
-      LIMP("\nFOCUS IS %ld %d\n\n",current_focus, revert_to);
-      if (current_focus==1) {
-        focus_top (d, last_prop_timestamp>last_user_timestamp
-                      ?last_prop_timestamp
-                      :last_user_timestamp);
-      }
-    }
+    update_timestamps (&event);
+    dispatch_event (&event, root);
+    check_sanity (d, root);
   }
-  release_managed_windows (d);
+  release_managed_windows (d, root);
   return 0;
 }
 
@@ -99,17 +98,17 @@ connect_to_display (const char *display_name)
   return XOpenDisplay (display_name);
 }
 
-void
-select_screen (Display *display, int screen_number)
+Window
+select_root (Display *display, int screen_number)
 {
   extern Atom WM_Sn;
-  extern Window wm_sn_root_window;
   char wm_sn[6];
   
   sprintf (wm_sn, "WM_S%d", screen_number);
   
   WM_Sn = XInternAtom (display, wm_sn, False);
-  wm_sn_root_window = RootWindow(display, screen_number);
+
+  return RootWindow(display, screen_number);
   /* For nesting shuffle, consider basing this on the root window
    * (or pseudo-root, when nesting), instead of the screen number.
    * for (i = 0; i < ScreenCount (dpy); i++) {
@@ -122,56 +121,15 @@ select_screen (Display *display, int screen_number)
 }
 
 void
-acquire_wm_selection (Display *display)
-{
-  Window        old_wm_window = None;
-  extern Window wm_sn_manager_window;
-  Time          timestamp;
-
-  old_wm_window = XGetSelectionOwner (display, WM_Sn);
-
-  if (old_wm_window != None) {
-    if (confirm_wm_change ()) {
-      XSelectInput (display, old_wm_window, StructureNotifyMask);
-    } else {
-      WIN("To replace an existing window manager, use the command line option '--replace'. End program.\n");
-    }
-  }
-
-  wm_sn_manager_window = get_manager_window (display, wm_sn_root_window);
-  timestamp = get_manager_timestamp (display, wm_sn_root_window);
-
-  if (timestamp > last_prop_timestamp) {
-    last_prop_timestamp = timestamp;
-  }
-  if (old_wm_window != XGetSelectionOwner (display, WM_Sn)) {
-    FAIL("Old window manager replaced during start-up. Aborting.\n");
-  }
-  XSetSelectionOwner (display, WM_Sn, wm_sn_manager_window, timestamp);
-  if (old_wm_window != None) {
-    wait_for_destruction (display, old_wm_window);
-  }
-  if (wm_sn_manager_window != XGetSelectionOwner (display, WM_Sn)) {
-    FAIL("Failed to become window manager. Aborting.\n");
-  }
-  send_manager_message (display, wm_sn_root_window);
-}
-
-void
-connect_to_session_manager (void)
-{
-}
-
-void
-set_up_environment (Display *display)
+set_up_environment (Display *display, Window root)
 {
   LIMP("Taking control.\n");
-  init_root (display, wm_sn_root_window);
+  init_root (display, root);
   init_windows (display);
 }
 
 void
-manage_existing_windows (Display *display)
+manage_existing_windows (Display *display, Window root)
 {
   /* Doing this like TWM. Filter out the icons and the Overriders.
    * Then unmap and remap what remain. That way there's only one function
@@ -180,12 +138,11 @@ manage_existing_windows (Display *display)
    * The filter loop and remap loop could be merged at the risk of 
    * an icon window having WM_HINTS.
    */
-  Window root, parent, *children;
+  Window rootr, parent, *children;
   unsigned int nchildren;
 
-  if (XQueryTree (display,wm_sn_root_window,&root,&parent,&children,&nchildren)) {
-    int i;
-    for (i=0;i<nchildren;i++) {
+  if (XQueryTree (display, root, &rootr, &parent, &children, &nchildren)) {
+    for (int i=0;i<nchildren;i++) {
       if (children[i] != None) {
         XWindowAttributes wattr;
         XWMHints *hints;
@@ -195,8 +152,7 @@ manage_existing_windows (Display *display)
         }
         if(children[i] && (hints = XGetWMHints (display, children[i]))) {
           if (hints->flags & IconWindowHint) {
-            int j;
-            for (j=0;j<nchildren;j++) {
+            for (int j=0;j<nchildren;j++) {
               if (children[j] == hints->icon_window) {
                 children[j] = None;
               }
@@ -207,7 +163,7 @@ manage_existing_windows (Display *display)
       }
     }
     LIMP("Remapping windows.\n");
-    for (i=0;i<nchildren;i++) {
+    for (int i=0;i<nchildren;i++) {
       LIMP("Looking at child %d of %d, XID %lu\n", i+1, nchildren, children[i]);
       if (children[i] != None) {
         XMapRequestEvent fake;
@@ -216,10 +172,10 @@ manage_existing_windows (Display *display)
         fake.serial = 0;
         fake.send_event = True;
         fake.display = display;
-        fake.parent = wm_sn_root_window;
+        fake.parent = root;
         fake.window = children[i];
         LIMP("Sending proxied MapRequest.\n");
-        XSendEvent (display, wm_sn_root_window, False,
+        XSendEvent (display, root, False,
                     SubstructureRedirectMask, (XEvent *) &fake);
       }
     }
@@ -254,102 +210,99 @@ update_timestamps (XEvent *e)
 }
 
 void
-process_event (XEvent *e)
+dispatch_event (XEvent *e, Window root)
 {
   Display *d = e->xany.display;
   Window w = e->xany.window;
   struct managed_window *mw;
   struct icon *icon;
-  
-  update_timestamps (e);
 
-  if (w == wm_sn_root_window) {
+  if (w == root) {
     on_root_event (e);                       // root.c
   } else if (w == wm_sn_manager_window) {
-    on_manager_event (e, wm_sn_root_window); // manager.c
+    on_manager_event (e, root);              // manager.c
   } else if ((mw = find_window (d, w))) {
-    on_window_event (e, mw);                 // window.c
+    on_window_event (mw, e);                 // window.c
   } else if ((icon = get_icon(d,w))) {
-    on_icon_event (e, icon);                 // icon.c
+    on_icon_event (icon, e);                 // icon.c
   } else {
     /* should not happen */
   }
 }
 
 void
-release_managed_windows (Display *display)
+check_sanity (Display *display, Window root)
 {
-  Window root, parent, *children;
-  unsigned int nchildren, i;
+  Window current_focus;
+  int    revert_to;
+  Window rootr, parent, *children;
+  unsigned int nchildren;
 
-  XSelectInput (display, wm_sn_root_window, None);
+  XGetInputFocus (display, &current_focus, &revert_to);
+  LIMP("\nFOCUS IS %ld %d\n\n",current_focus, revert_to);
+  if (current_focus==1) {
+    /* Looks like focus was lost. Set it to the top window. */
+    focus_top (display, root, last_prop_timestamp>last_user_timestamp
+                              ?last_prop_timestamp
+                              :last_user_timestamp);
+  } else if (XQueryTree (display, root,
+                         &rootr, &parent, &children, &nchildren)) {  
+    /* Check the stacking of the windows.
+     * If the focused window isn't on top and and if there isn't a
+     * ConfigureNotify or ConfigureRequest pending, then
+     * raise the focused window or its transients to the top of the stack.
+     * 
+     * It's expected that clients will generally handle raising their own
+     * windows.
+     */
+    for (int i=nchildren-1;i>=0; i--) {
+      struct managed_window *mw;
+      if ((mw = find_window (display, children[i]))) {
+        if (children[i] != current_focus) {
+          /* There's a managed window near the top, but it's not focused. */
+          XEvent *e;
+          if (XCheckWindowEvent (display, children[i],
+                                 StructureNotifyMask
+                                 | SubstructureNotifyMask
+                                 | SubstructureRedirectMask ,
+                                 &e)) {
+            break;
+          } else {
+            /* carry on? */
+          }
+        }
+      }
+    }
+    if (nchildren) XFree (children);
+  }
+  /* Eventually this will keep the desktop below other windows and the
+   * menu bar above other windows.
+   */
+}
 
-  if (XQueryTree (display, wm_sn_root_window,
-                  &root, &parent, &children, &nchildren)) {
-    for (i=0;i<nchildren;i++) {
+void
+release_managed_windows (Display *display, Window root)
+{
+  Window rootr, parent, *children;
+  unsigned int nchildren;
+
+  XSelectInput (display, root, None);
+
+  if (XQueryTree (display, root, &rootr, &parent, &children, &nchildren)) {
+    for (int i=0;i<nchildren;i++) {
       remove_window (display, children[i]);
     }
-    XFree (children);
+    if (nchildren) XFree (children);
   }
   XDestroyWindow (display, wm_sn_manager_window);
   WIN("I surrender!\n");
 }
 
-Bool
-confirm_wm_change (void)
+int
+on_error (Display *display, XErrorEvent *e)
 {
-  Bool replace = True;
-  return (replace);
+  char buf[256];
+  XGetErrorText (display, e->error_code, buf, 256);
+  LIMP("X Error %s\n", buf);
+  return 0;
 }
-
-
-void
-wait_for_destruction (Display *display, Window old_wm_window)
-{
-  XEvent foo; // Xlib doesn't like NULL.
-  Bool gone;
-  int n = 10, s = 1; // Check 10 times, 1 sec apart.
-  do {
-    gone = XCheckTypedWindowEvent (display, old_wm_window, DestroyNotify, &foo);
-    if (!gone) {
-      if (n==10) {
-        YO("Waiting for existing window manager to relinquish control.");
-      } else {
-        YO(" .");
-      }
-      sleep (s);
-      n--;
-    }
-  } while (!gone && n!=0);
-  if (n!=10) {
-    YO("\n");
-  }
-  if (!gone) {
-    try_forced_destruction (display, old_wm_window);
-  }
-}
-
-void
-try_forced_destruction (Display *display, Window old_wm_window)
-{
-  XEvent foo; // Xlib doesn't like NULL
-  if (confirm_forced_destruction ()) {
-    YO("Forcing existing window manager release.");
-    XKillClient (display, old_wm_window);
-    while (!XCheckTypedWindowEvent (display, old_wm_window, DestroyNotify, &foo)) {
-      YO(" .");
-      sleep (1);
-    }
-    YO(" Done.\n");
-  } else {
-    FAIL("Old window manager did not relinquish control. Aborting.\n");
-  }
-}
-
-Bool
-confirm_forced_destruction (void)
-{
-  Bool forced_replace = True;
-  return (forced_replace);
-}
-
