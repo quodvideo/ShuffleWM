@@ -62,23 +62,19 @@ void
 on_root_event (XEvent *e)
 {
   switch (e->type) {
-  case KeyPress:       on_key_press ((XKeyEvent *) e);          break;
-  case KeyRelease:     on_key_release ((XKeyEvent *)e);         break;
-  case ButtonPress:    on_button_press ((XButtonEvent *) e);    break;
-  case ButtonRelease:  on_button_release ((XButtonEvent *) e);  break;
-  case MotionNotify:   on_motion_notify ((XMotionEvent *) e);   break;
-  case FocusIn:        on_focus_in ((XFocusChangeEvent *) e);   break;
-  case FocusOut:       on_focus_out ((XFocusChangeEvent *) e);  break;
-  case MapRequest:     on_map_request ((XMapRequestEvent *) e); break;
-  case ConfigureRequest:
-    on_configure_request ((XConfigureRequestEvent *) e); break;
-  case CirculateRequest:
-    on_circulate_request ((XCirculateRequestEvent *) e); break;
-  case PropertyNotify: on_property_notify ((XPropertyEvent *) e); break;
-  case ClientMessage:  on_client_message ((XClientMessageEvent *) e); break;
-  default:
-    LIMP("Unselected event received on root window.\n");
-    break;
+  case KeyPress:         on_key_press ((XKeyEvent *) e);          break;
+  case KeyRelease:       on_key_release ((XKeyEvent *)e);         break;
+  case ButtonPress:      on_button_press ((XButtonEvent *) e);    break;
+  case ButtonRelease:    on_button_release ((XButtonEvent *) e);  break;
+  case MotionNotify:     on_motion_notify ((XMotionEvent *) e);   break;
+  case FocusIn:          on_focus_in ((XFocusChangeEvent *) e);   break;
+  case FocusOut:         on_focus_out ((XFocusChangeEvent *) e);  break;
+  case MapRequest:       on_map_request ((XMapRequestEvent *) e); break;
+  case ConfigureRequest: on_configure_request ((XConfigureRequestEvent *) e); break;
+  case CirculateRequest: on_circulate_request ((XCirculateRequestEvent *) e); break;
+  case PropertyNotify:   on_property_notify ((XPropertyEvent *) e); break;
+  case ClientMessage:    on_client_message ((XClientMessageEvent *) e); break;
+  default: LIMP("Unselected event received on root window.\n"); break;
   }
 }
 
@@ -107,52 +103,9 @@ set_wm_icon_size (Display *d, Window root)
 static void
 grab_wm_keys (Display *d, Window root)
 {
-  /* For now, only:
-   *       Super+Tab: Next window.
-   * Super+Shift+Tab: Previous window
-   *         Super+D: Show desktop
-   *    Super+Escape: Show icons
-   */
+  /* Only grab Super_L. */
   XGrabKey (d, XKeysymToKeycode (d, XK_Super_L), AnyModifier, root,
             False, GrabModeAsync, GrabModeAsync);
-/*
-  int scroll_lock_mask = 0;
-
-  int ignored_masks[8] = { // Since scroll_lock_mask is 0, redundancies
-    0,
-    LockMask,
-    Mod2Mask,
-    scroll_lock_mask,
-    LockMask|Mod2Mask,
-    LockMask|scroll_lock_mask,
-    LockMask|Mod2Mask|scroll_lock_mask,
-    Mod2Mask|scroll_lock_mask,
-  };
-  #warning ICCCM says this should be GrabModeSync
-  LIMP("Grabbing Keys\n");
-  for (int i=0;i<8;i++) {
-    XGrabKey (d, XKeysymToKeycode (d, XK_Tab),
-              Mod4Mask|ignored_masks[i],
-              root, False, GrabModeAsync, GrabModeAsync);
-    XGrabKey (d, XKeysymToKeycode (d, XK_Tab),
-              Mod4Mask|ShiftMask|ignored_masks[i],
-              root, False, GrabModeAsync, GrabModeAsync);
-//    XGrabKey (d, XKeysymToKeycode (d, XK_d),
-//              Mod4Mask|ignored_masks[i],
-//              root, False, pointer_mode, keyboard_mode);
-//    XGrabKey (d, XKeysymToKeycode (d, XK_D),
-//              Mod4Mask|ignored_masks[i],
-//              root, False, pointer_mode, keyboard_mode);
-//    XGrabKey (d, XKeysymToKeycode (d, XK_Escape),
-//              Mod4Mask|ignored_masks[i],
-//              root, False, pointer_mode, keyboard_mode);
-//    XGrabKey (d, XKeysymToKeycode (d, XK_Alt_R),
-//              Mod1Mask|ignored_masks[i],
-//              root, False, pointer_mode, keyboard_mode);
-//    XGrabKey (d, XKeysymToKeycode (d, XK_Alt_L),
-//              Mod1Mask|ignored_masks[i],
-//              root, False, pointer_mode, keyboard_mode);
-  } */
 }
 
 static void
@@ -194,11 +147,9 @@ grab_wm_buttons (Display *d, Window root)
   
   LIMP("Grabbing Buttons 1 & 3 with Mod4Mask\n");
   for (int i=0;i<8;i++) {
-    XGrabButton (d, Button1, Mod4Mask|ignored_masks[i],
-                 root, False, event_mask,
+    XGrabButton (d, Button1, Mod4Mask|ignored_masks[i], root, False, event_mask,
                  GrabModeAsync, GrabModeAsync, None, move_cursor);
-    XGrabButton (d, Button3, Mod4Mask|ignored_masks[i],
-                 root, False, event_mask,
+    XGrabButton (d, Button3, Mod4Mask|ignored_masks[i], root, False, event_mask,
                  GrabModeAsync, GrabModeAsync, None, size_cursor);
   }
 }
@@ -226,40 +177,52 @@ focus_top (Display *d, Window root, Time t)
 static void
 on_key_press (XKeyEvent *e)
 {
-  if (e->keycode == XKeysymToKeycode (e->display, XK_Escape)) {
+  switch (XLookupKeysym (e, 0)) {
+  case XK_Super_L:
+    break;
+  case XK_Escape:
     switch (shuffle_mode) {
     case MovingWindow: cancel_move (e); break;
     case ResizingWindow: cancel_resize (e); break;
-    default:
-      break;
+    default: break;
     }
     if (e->state & Mod4Mask) {
       /* Don't release the keyboard yet. */
     } else {
       XUngrabKeyboard (e->display, e->time);
     }
-  } else if (e->keycode == XKeysymToKeycode (e->display, XK_Tab)
-             && e->state & Mod4Mask) {
-    if (shuffle_mode == NoMode) {
-      // shuffle_mode = SwitchingWindows;
-      // Do something to enable switching windows
+    break;
+  case XK_Tab:
+    if (e->state & Mod4Mask) {
+      if (shuffle_mode == NoMode) {
+        // shuffle_mode = SwitchingWindows;
+        // Do something to enable switching windows
+      }
+      if (e->state & ShiftMask) {
+        LIMP("Got a Super+Shift+Tab\n");
+        // prev_link (e->display, e->root, e->time);
+      } else {
+        LIMP("Got a Super+Tab\n");
+        // next_link (e->display, e->root, e->time);
+      }
     }
-    if (e->state & ShiftMask) {
-      LIMP("Got a Super+Shift+Tab\n");
-      // prev_link (e->display, e->root, e->time);
-    } else {
-      LIMP("Got a Super+Tab\n");
-      // next_link (e->display, e->root, e->time);
-    }
-  } else if (1) { 
+    break;
+    default:
+      break;
   }
 }
 
 static void
 on_key_release (XKeyEvent *e)
 {
-  if (e->keycode == XKeysymToKeycode (e->display, XK_Super_L)) {
-    XUngrabKeyboard (e->display, e->time);
+  switch (XLookupKeysym (e, 0)) {
+  case XK_Super_L:
+    switch(shuffle_mode) {
+    case MovingWindow: break;
+    case ResizingWindow: break;
+    default: XUngrabKeyboard (e->display, e->time); break;
+    }
+  default: break;
   }
 }
 
@@ -296,8 +259,7 @@ on_button_release (XButtonEvent *e)
   switch (shuffle_mode) {
   case MovingWindow:   finish_move (e);   break;
   case ResizingWindow: finish_resize (e); break;
-  default:
-    break;
+  default: break;
   }
   if (e->state & Mod4Mask) {
     /* Don't release the keyboard yet. */
@@ -312,8 +274,7 @@ on_motion_notify (XMotionEvent *e)
   switch (shuffle_mode) {
   case MovingWindow: do_move (e); break;
   case ResizingWindow: do_resize (e); break;
-  default:
-    break;
+  default: break;
   }
 }
 
@@ -425,8 +386,10 @@ on_property_notify (XPropertyEvent *e)
 static void
 on_client_message (XClientMessageEvent *e)
 {
-  if (e->message_type == WM_CHANGE_STATE) {
-  } else {
+  if (e->message_type == WM_CHANGE_STATE
+      && e->format == 32
+      && e->data.l[0] == IconicState) {
+    iconify (find_window (e->display, e->window));
   }
 }
 

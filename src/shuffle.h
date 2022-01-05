@@ -9,6 +9,21 @@
 #define LIMP(...) fprintf (stderr, __VA_ARGS__);
 #define YO(...)   fprintf (stderr, __VA_ARGS__);
 
+/*
+ * One goal of Shuffle is complete ICCCM compliance. This may be facilitated in
+ * part by taking what liberties are afforded window managers. If some part of
+ * the ICCCM is deliberately ignored, it will be noted. Otherwise, it should be
+ * regarded as an error. There are a lot of errors right now.
+ *
+ * Shuffle will eventually support some EWMH protocols, such as the stacking
+ * order requirements.
+ *
+ * Whether shuffle will be compositing depends on whether anyone takes note of
+ * it. Ideally, the better focus handling of shuffle will be noted soon and so
+ * further development will be unnecessary. If I have to keep using shuffle to
+ * get the right behavior from applications, then I'll keep developing it.
+ */
+
 enum ShuffleModes {
   ShutDown,
   NoMode,
@@ -27,6 +42,10 @@ enum ShuffleModes {
   Gadgets          /* Just part of showing icons or tiles? */
 };
 
+/*
+ * I may need to make shuffle_mode a bitfield instead,
+ * to support some composite actions.
+ */
 extern enum ShuffleModes shuffle_mode;
 
 extern Time last_user_timestamp;

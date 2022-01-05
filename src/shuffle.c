@@ -23,25 +23,23 @@
 #warning "This code does not check for X server clock roll-over."
 Time last_user_timestamp = CurrentTime;
 Time last_prop_timestamp = CurrentTime;
+unsigned long last_key_release_serial;
 
 struct managed_window *current_focus = NULL;
 
 /* This changes less. */
 enum ShuffleModes shuffle_mode = NoMode;
 
-/* Globals that almost never change. */
-static Window wm_sn_manager_window = None;
-
 /* All the basic set-up. */
-void process_command_line       (int argc, char **argv);  // does nothing
-Display *connect_to_display     (const char *display_name);
-Window   select_root            (Display *display, int screen_number);
-void set_up_environment         (Display *display, Window root);
-void manage_existing_windows    (Display *display, Window root);
+void     process_command_line    (int argc, char **argv);  // does nothing
+Display *connect_to_display      (const char *display_name);
+Window   select_root             (Display *display, int screen_number);
+void     set_up_environment      (Display *display, Window root);
+void     manage_existing_windows (Display *display, Window root);
 
 /* Event loop */
 void update_timestamps (XEvent *e);
-void dispatch_event     (XEvent *e, Window root);
+void dispatch_event    (XEvent *e, Window root);
 void check_sanity      (Display *display, Window root);
 
 /* Clean up when done. */
@@ -49,8 +47,7 @@ void release_managed_windows (Display *display, Window root);
 
 /* Error handler function for XSetErrorHandler */
 int on_error (Display *display, XErrorEvent *e);
-
-unsigned long last_key_release_serial;
+int on_io_error (Display *display);
 
 /* Here we go! */
 int
@@ -62,9 +59,10 @@ main (int argc, char **argv)
   process_command_line (argc, argv);
   d = connect_to_display (NULL);
   XSetErrorHandler (on_error);
-  intern_display_atoms (d);                    // atoms.c
+  XSetIOErrorHandler (on_io_error);
+  intern_display_atoms (d);       // atoms.c
   root = select_root (d, DefaultScreen(d));
-#warning "This could be event driven from about here on."
+  // This could be event driven from about here on."
   acquire_wm_selection (d, root); // manager.c
   connect_to_session_manager ();  // session.c
   set_up_environment (d, root);
@@ -73,15 +71,21 @@ main (int argc, char **argv)
   shuffle_mode = NoMode;
   while (shuffle_mode) {
     XEvent event;
+    LIMP("===XNextEvent\n");
     XNextEvent (d, &event);
     if (event.type == KeyRelease) last_key_release_serial = event.xkey.serial;
 //    if (event.xany.serial == last_key_release_serial) continue;
 #ifdef DECODE_H
+    LIMP("===decode_event\n");
     decode_event (&event);
 #endif /* DECODE_H */
+    LIMP("===update_timestamps\n");
     update_timestamps (&event);
+    LIMP("===dispatch_event\n");
     dispatch_event (&event, root);
+    LIMP("===check_sanity\n");
     check_sanity (d, root);
+    LIMP("===iteration complete\n");
   }
   release_managed_windows (d, root);
   return 0;
@@ -218,13 +222,13 @@ dispatch_event (XEvent *e, Window root)
   struct icon *icon;
 
   if (w == root) {
-    on_root_event (e);                       // root.c
-  } else if (w == wm_sn_manager_window) {
-    on_manager_event (e, root);              // manager.c
+    on_root_event (e);                          // root.c
+  } else if (w == get_manager_window(d, root)) {
+    on_manager_event (e, root);                 // manager.c
   } else if ((mw = find_window (d, w))) {
-    on_window_event (mw, e);                 // window.c
+    on_window_event (mw, e);                    // window.c
   } else if ((icon = get_icon(d,w))) {
-    on_icon_event (icon, e);                 // icon.c
+    on_icon_event (icon, e);                    // icon.c
   } else {
     /* should not happen */
   }
@@ -240,6 +244,7 @@ check_sanity (Display *display, Window root)
 
   XGetInputFocus (display, &current_focus, &revert_to);
   LIMP("\nFOCUS IS %ld %d\n\n",current_focus, revert_to);
+
   if (current_focus==1) {
     /* Looks like focus was lost. Set it to the top window. */
     focus_top (display, root, last_prop_timestamp>last_user_timestamp
@@ -260,7 +265,7 @@ check_sanity (Display *display, Window root)
       if ((mw = find_window (display, children[i]))) {
         if (children[i] != current_focus) {
           /* There's a managed window near the top, but it's not focused. */
-          XEvent *e;
+          XEvent e;
           if (XCheckWindowEvent (display, children[i],
                                  StructureNotifyMask
                                  | SubstructureNotifyMask
@@ -275,6 +280,7 @@ check_sanity (Display *display, Window root)
     }
     if (nchildren) XFree (children);
   }
+  LIMP("Sanity check complete.\n");
   /* Eventually this will keep the desktop below other windows and the
    * menu bar above other windows.
    */
@@ -294,7 +300,7 @@ release_managed_windows (Display *display, Window root)
     }
     if (nchildren) XFree (children);
   }
-  XDestroyWindow (display, wm_sn_manager_window);
+  XDestroyWindow (display, get_manager_window(display, root));
   WIN("I surrender!\n");
 }
 
@@ -305,4 +311,10 @@ on_error (Display *display, XErrorEvent *e)
   XGetErrorText (display, e->error_code, buf, 256);
   LIMP("X Error %s\n", buf);
   return 0;
+}
+
+int
+on_io_error (Display *display)
+{
+  FAIL("!!! ABSOLUTE CHAOS !!!\n");
 }

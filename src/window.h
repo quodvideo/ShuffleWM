@@ -18,6 +18,8 @@ int  get_initial_state (struct managed_window *mw);
 void map_window        (struct managed_window *mw);
 void map_icon          (struct managed_window *mw);
 
+void iconify           (struct managed_window *mw);
+
 void focus_from_wm     (struct managed_window *mw, Time t);
 void try_focus_from_client_area (struct managed_window *mw, Time t);
 

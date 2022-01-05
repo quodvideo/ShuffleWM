@@ -194,6 +194,7 @@ remove_window (Display *d, Window w)
     LIMP ("Window #%lu is not my window.\n", w);
     return;
   }
+  set_wm_state (mw, WithdrawnState, None);
 #warning "Make sure all managed_window allocations are freed."
   LIMP ("Removing window %lu\n", mw->id);
   // Is this necessary? Error prone?
@@ -238,14 +239,24 @@ remove_window (Display *d, Window w)
 void
 map_window (struct managed_window *mw)
 {
+  LIMP("Moving window ");
   XMapWindow (mw->display, mw->id);
+  LIMP("into ");
   set_wm_state (mw, NormalState, None);
+  LIMP("NormalState\n");
 }
 
 void
 map_icon (struct managed_window *mw)
 {
   set_wm_state (mw, IconicState, None);
+}
+
+void
+iconify (struct managed_window *mw)
+{
+  XUnmapWindow (mw->display, mw->id);
+  map_icon (mw);
 }
 
 void
