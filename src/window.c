@@ -87,6 +87,12 @@ get_initial_state (struct managed_window *mw)
   return mw->hints.initial_state;
 }
 
+Window
+get_id (struct managed_window *mw)
+{
+  return mw->id;
+}
+
 void
 init_windows (Display *d)
 {

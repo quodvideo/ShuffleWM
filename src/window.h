@@ -12,8 +12,9 @@ struct managed_window *add_window      (Display *d, Window w);
 struct managed_window *find_window     (Display *d, Window w);
 void                   remove_window   (Display *d, Window w);
 
-int  get_state         (struct managed_window *mw);
-int  get_initial_state (struct managed_window *mw);
+int    get_state         (struct managed_window *mw);
+int    get_initial_state (struct managed_window *mw);
+Window get_id            (struct managed_window *mw);
 
 void map_window        (struct managed_window *mw);
 void map_icon          (struct managed_window *mw);

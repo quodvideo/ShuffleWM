@@ -29,6 +29,11 @@ static void on_circulate_request (XCirculateRequestEvent *e);
 static void on_property_notify   (XPropertyEvent *e);
 static void on_client_message    (XClientMessageEvent *e);
 
+static void begin_keyboard_focus_change (XKeyEvent *e);
+static void end_keyboard_focus_change (XKeyEvent *e);
+static void advance_keyboard_focus (XKeyEvent *e);
+static void reverse_keyboard_focus (XKeyEvent *e);
+
 void
 init_root (Display *d, Window root)
 {
@@ -37,7 +42,9 @@ init_root (Display *d, Window root)
     Cursor root_cursor = None;
     root_cursor = XCreateFontCursor (d, XC_left_ptr);
     XDefineCursor (d, root, root_cursor);
-    XSelectInput (d, root, SubstructureRedirectMask | FocusChangeMask);
+    XSelectInput (d, root, SubstructureNotifyMask
+                           | SubstructureRedirectMask
+                           | FocusChangeMask);
     grab_wm_keys (d, root);
     grab_focus_buttons (d, root);
     grab_wm_buttons (d, root);
@@ -195,19 +202,12 @@ on_key_press (XKeyEvent *e)
   case XK_Tab:
     if (e->state & Mod4Mask) {
       if (shuffle_mode == NoMode) {
-        // shuffle_mode = SwitchingWindows;
-        // Do something to enable switching windows
-      }
-      if (e->state & ShiftMask) {
-        LIMP("Got a Super+Shift+Tab\n");
-        // prev_link (e->display, e->root, e->time);
-      } else {
-        LIMP("Got a Super+Tab\n");
-        // next_link (e->display, e->root, e->time);
+        shuffle_mode = SwitchingWindows;
+        begin_keyboard_focus_change (e);
       }
     }
     break;
-    default:
+  default:
       break;
   }
 }
@@ -220,7 +220,21 @@ on_key_release (XKeyEvent *e)
     switch(shuffle_mode) {
     case MovingWindow: break;
     case ResizingWindow: break;
+    case SwitchingWindows:
+      end_keyboard_focus_change (e);
+      /* Fall through */
     default: XUngrabKeyboard (e->display, e->time); break;
+    }
+  case XK_Tab:
+    switch (shuffle_mode) {
+    case SwitchingWindows:
+      if (e->state & ShiftMask) {
+        reverse_keyboard_focus (e);
+      } else {
+        advance_keyboard_focus (e);
+      }
+      break;
+    default: break;
     }
   default: break;
   }
@@ -397,16 +411,14 @@ static struct managed_window *focus_ring[512];
 static int ring_focus = 0;
 static int ring_end = 0;
 
-static void
-begin_keyboard_focus_change (XKeyEvent *e)
+void
+build_focus_ring (Display *d, Window root)
 {
-  // Get the list of windows to include in the ring
-  // grab whatever needs to be grabbed for the mode
-  // set mode to SwitchingWindows
-  Window root, parent, *children;
+  Window rootr, parent, *children;
   unsigned int nchildren;
   struct managed_window *mw;
-  XQueryTree (e->display, e->root, &root, &parent, &children, &nchildren);
+  
+  XQueryTree (d, root, &rootr, &parent, &children, &nchildren);
 
   ring_focus = 0;
   ring_end = 0;
@@ -421,9 +433,38 @@ begin_keyboard_focus_change (XKeyEvent *e)
   if (nchildren) {
     XFree (children);
   }
-  LIMP("Found %d managed windows\n", ring_end);
-  /* focus is presumably on the topmost window */
-  ring_focus = ring_end - 1;
+}
+
+void
+set_ring_focus_to_current_focus (Display *d)
+{
+  Window current_focus;
+  int revert_to;
+
+  XGetInputFocus (d, &current_focus, &revert_to);
+
+  for (int i=0;i<ring_end;i++) {
+    Window id = get_id (focus_ring[i]);
+    if (id == current_focus) {
+      ring_focus = i;
+      break;
+    }
+  }
+}
+
+static void
+begin_keyboard_focus_change (XKeyEvent *e)
+{
+  build_focus_ring (e->display, e->root);
+  set_ring_focus_to_current_focus (e->display);
+}
+
+static void
+end_keyboard_focus_change (XKeyEvent *e)
+{
+  shuffle_mode = NoMode;
+  ring_focus = 0;
+  ring_end = 0;
 }
 
 static void
@@ -434,6 +475,7 @@ advance_keyboard_focus (XKeyEvent *e)
   } else {
     --ring_focus;
   }
+  LIMP("Setting ring_focus = %d\n", ring_focus);
   focus_from_wm (focus_ring[ring_focus], e->time);
 }
 
@@ -445,6 +487,7 @@ reverse_keyboard_focus (XKeyEvent *e)
   } else {
     ++ring_focus;
   }
+  LIMP("Setting ring_focus = %d\n", ring_focus);
   focus_from_wm (focus_ring[ring_focus], e->time);
 }
 

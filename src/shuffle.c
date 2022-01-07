@@ -71,21 +71,14 @@ main (int argc, char **argv)
   shuffle_mode = NoMode;
   while (shuffle_mode) {
     XEvent event;
-    LIMP("===XNextEvent\n");
     XNextEvent (d, &event);
     if (event.type == KeyRelease) last_key_release_serial = event.xkey.serial;
-//    if (event.xany.serial == last_key_release_serial) continue;
 #ifdef DECODE_H
-    LIMP("===decode_event\n");
     decode_event (&event);
 #endif /* DECODE_H */
-    LIMP("===update_timestamps\n");
     update_timestamps (&event);
-    LIMP("===dispatch_event\n");
     dispatch_event (&event, root);
-    LIMP("===check_sanity\n");
     check_sanity (d, root);
-    LIMP("===iteration complete\n");
   }
   release_managed_windows (d, root);
   return 0;
@@ -280,7 +273,6 @@ check_sanity (Display *display, Window root)
     }
     if (nchildren) XFree (children);
   }
-  LIMP("Sanity check complete.\n");
   /* Eventually this will keep the desktop below other windows and the
    * menu bar above other windows.
    */
