@@ -22,9 +22,33 @@ The value of these properties is type `UTF8_STRING`. The content is a descriptio
     (item (label "_Save")  (shortcut "Ctrl+S") (token "3"))
     (item (label "_Close") (shortcut "Ctrl+W") (token "4"))))
 ```
+or perhaps something like
+```
+ (item :label "_File"
+   (menu
+     (item :label "_New"   :shortcut "Ctrl+N" :token 1))
+     (item :label "_Open"  :shortcut "Ctrl+O" :token 2))
+     (item :label "_Save"  :shortcut "Ctrl+S" :token 3))
+     (item :label "_Close" :shortcut "Ctrl+W" :token 4))))
+```
 The whitespace can be collapsed in the property.
 
 An underscore before a letter in a label indicates a keyboard key that can be used to activate an item when the menu is open. The shortcut is displayed on the menu, but each application must implement its own keyboard shortcuts. The token item provides a number which the will be used to indicate the action a user has chosen. The use of a token allows a consistent signalling system in different localizations, which should only change the label or shortcut.
+
+To indicate a menu item has been selected, the window manager will send a client message to the focus window.
+```
+      window: InputFocus
+message_type: _INDEX_MENU_n
+      format: 32
+        l[0]: source
+        l[1]: timestamp
+        l[2]: token
+        l[3]: 0
+        l[4]: 0
+```
+This creates an opportunity for scripting, which may be a bad thing. This allows for commands to be sent as if selected from the menus by the user when the source is in fact a malicious script. Perhaps `l[3]` or `l[4]` should include a key which clients provide to the `WM_Sn` selection owner. It can still be exploited by sending `INT_MAX` client messages, one with each possible key, but perhaps my security model is all wrong.
+
+There are enough 32-bit integers for unique tokens for each menu item, so including the source menu in the message type
 
 I need to write a formal spec for this.
 
