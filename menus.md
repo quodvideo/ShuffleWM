@@ -36,8 +36,10 @@ I need to write a formal spec for this.
 * shortcut: the keyboard shortcut that can be used from the application
 * token: the unique integer identifier for the item
 * active: "true" is the item applies to the selection, "false" if it does not, and "mixed" if it applies to only part of the selection
-* default: For an item with a submenu, a default token can be activated without opening the submenu. This is familiar before for OS/2 and IceWM users.
+* default: For an item with a submenu, a default token can be activated without opening the submenu. This is familiar for OS/2 and IceWM users.
 
 The menus are placed in different properties so small changes can be made without reparsing the entire menu. The window manager is expected to match the current menu to the properties of the focused window. It can keep its own copy which is updated on property notification events, or it can read from the property as needed to display the correct menu. Changes while the menu is showing (shouldn't happen?) . . .
+
+The menus will be placed on the menu bar in the order of the property indices. After the system menu will be the menu specified by `_INDEX_MENU_0` then the one given by `_INDEX_MENU_1` and so on.
 
 More to come.
