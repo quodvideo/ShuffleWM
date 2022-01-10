@@ -202,7 +202,6 @@ on_key_press (XKeyEvent *e)
   case XK_Tab:
     if (e->state & Mod4Mask) {
       if (shuffle_mode == NoMode) {
-        shuffle_mode = SwitchingWindows;
         begin_keyboard_focus_change (e);
       }
     }
@@ -424,7 +423,7 @@ build_focus_ring (Display *d, Window root)
   ring_end = 0;
 
   for (int i=nchildren;i>=0;i--) {
-    mw = find_window (e->display, children[i]);
+    mw = find_window (d, children[i]);
     if (mw) {
       focus_ring[ring_end] = mw;
       ring_end++;
@@ -455,6 +454,7 @@ set_ring_focus_to_current_focus (Display *d)
 static void
 begin_keyboard_focus_change (XKeyEvent *e)
 {
+  shuffle_mode = SwitchingWindows;
   build_focus_ring (e->display, e->root);
   set_ring_focus_to_current_focus (e->display);
 }
@@ -475,7 +475,6 @@ advance_keyboard_focus (XKeyEvent *e)
   } else {
     --ring_focus;
   }
-  LIMP("Setting ring_focus = %d\n", ring_focus);
   focus_from_wm (focus_ring[ring_focus], e->time);
 }
 
@@ -487,7 +486,6 @@ reverse_keyboard_focus (XKeyEvent *e)
   } else {
     ++ring_focus;
   }
-  LIMP("Setting ring_focus = %d\n", ring_focus);
   focus_from_wm (focus_ring[ring_focus], e->time);
 }
 
